@@ -9,16 +9,14 @@ import org.springframework.data.domain.Pageable;
 
 public abstract class CrudService<T extends Entity<K>, V, K> {
 
-    private static final int PAGE_SIZE = 20;
-
     protected CrudRepository<T, K> repository;
 
     public CrudService(CrudRepository<T, K> repository) {
         this.repository = repository;
     }
 
-    public Page<V> findAll() {
-        return repository.findAll(Pageable.ofSize(PAGE_SIZE))
+    public Page<V> findAll(int pageSize) {
+        return repository.findAll(Pageable.ofSize(pageSize))
                 .map(entity -> getAdapter().toDTO(entity));
     }
 

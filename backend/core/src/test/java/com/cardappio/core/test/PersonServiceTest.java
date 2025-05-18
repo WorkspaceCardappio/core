@@ -40,7 +40,7 @@ class PersonServiceTest {
         when(repository.findAll(Pageable.ofSize(20)))
                 .thenReturn(new PageImpl<>(people, PageRequest.of(0, 20), people.size()));
 
-        Page<PersonDTO> result = service.findAll();
+        Page<PersonDTO> result = service.findAll(20);
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(2);

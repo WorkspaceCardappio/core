@@ -46,10 +46,10 @@ public class PersonControllerTest {
     @SneakyThrows
     void findAll() {
 
-        mockMvc.perform(get(RESOURCE))
+        mockMvc.perform(get(RESOURCE + "?page_size=100"))
                 .andExpect(status().isOk());
 
-        verify(service, times(1)).findAll();
+        verify(service, times(1)).findAll(100);
         verifyNoMoreInteractions(service);
     }
 
