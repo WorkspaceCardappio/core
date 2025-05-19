@@ -55,6 +55,17 @@ public class PersonControllerTest {
 
     @Test
     @SneakyThrows
+    void findAllRSQL() {
+
+        mockMvc.perform(get(RESOURCE + "?page_size=100&search=nome='ricardo';id=27"))
+                .andExpect(status().isOk());
+
+        verify(service, times(1)).findAllRSQL("nome='ricardo';id=27", 100);
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    @SneakyThrows
     void findById() {
 
         mockMvc.perform(get(RESOURCE + "/1"))

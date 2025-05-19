@@ -3,6 +3,8 @@ package com.cardappio.core.controller;
 import com.cardappio.core.entity.Entity;
 import com.cardappio.core.service.CrudService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +25,16 @@ public class CrudController<T extends Entity<K>, V, K> {
             method = RequestMethod.GET
     )
     protected ResponseEntity<Page<V>> findAll(
-            @RequestParam(value = "page_size") int pageSize
+            @RequestParam(value = "page_size") final int pageSize,
+            @RequestParam(value = "search", defaultValue = Strings.EMPTY) final String search
     ) {
-        return ResponseEntity.ok(service.findAll(pageSize));
+
+        if (search.isBlank()) {
+
+            return ResponseEntity.ok(service.findAll(pageSize));
+        }
+
+        return ResponseEntity.ok(service.findAllRSQL(search, pageSize));
     }
 
     @RequestMapping(

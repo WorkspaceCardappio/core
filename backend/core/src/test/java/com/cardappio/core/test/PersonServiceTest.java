@@ -12,10 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
 
+import static io.github.perplexhub.rsql.RSQLJPASupport.toSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -53,6 +55,33 @@ class PersonServiceTest {
                         Tuple.tuple(2L, "Jean"));
 
         verify(repository, times(1)).findAll(Pageable.ofSize(20));
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void findAllRSQL() {
+
+        List<Person> people = List.of(
+                new Person(1L, "Ricardo"),
+                new Person(2L, "Jean")
+        );
+
+        when(repository.findAll(any(Specification.class), eq(Pageable.ofSize(20))))
+                .thenReturn(new PageImpl<>(people, PageRequest.of(0, 20), people.size()));
+
+        Page<PersonDTO> result = service.findAllRSQL("id=bt=(1,2)", 20);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getContent()).hasSize(2);
+        assertThat(result.getTotalElements()).isEqualTo(2);
+        assertThat(result.getTotalPages()).isEqualTo(1);
+        assertThat(result)
+                .extracting(PersonDTO::id, PersonDTO::name)
+                .containsExactlyInAnyOrder(
+                        Tuple.tuple(1L, "Ricardo"),
+                        Tuple.tuple(2L, "Jean"));
+
+        verify(repository, times(1)).findAll(any(Specification.class), eq(Pageable.ofSize(20)));
         verifyNoMoreInteractions(repository);
     }
 
