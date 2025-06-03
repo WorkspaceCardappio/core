@@ -3,13 +3,14 @@ package com.cardappio.core.service;
 import com.cardappio.core.adapter.Adapter;
 import com.cardappio.core.entity.Entity;
 import com.cardappio.core.repository.CrudRepository;
+import io.github.perplexhub.rsql.RSQLJPASupport;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public abstract class CrudService<T extends Entity<K>, V, K> {
+import static io.github.perplexhub.rsql.RSQLJPASupport.toSpecification;
 
-    private static final int PAGE_SIZE = 20;
+public abstract class CrudService<T extends Entity<K>, V, K> {
 
     protected CrudRepository<T, K> repository;
 
@@ -17,8 +18,13 @@ public abstract class CrudService<T extends Entity<K>, V, K> {
         this.repository = repository;
     }
 
-    public Page<V> findAll() {
-        return repository.findAll(Pageable.ofSize(PAGE_SIZE))
+    public Page<V> findAll(final int pageSize) {
+        return repository.findAll(Pageable.ofSize(pageSize))
+                .map(entity -> getAdapter().toDTO(entity));
+    }
+
+    public Page<V> findAllRSQL(final String search, final int pageSize) {
+        return repository.findAll(toSpecification(search), Pageable.ofSize(pageSize))
                 .map(entity -> getAdapter().toDTO(entity));
     }
 
