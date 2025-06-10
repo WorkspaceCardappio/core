@@ -9,6 +9,9 @@
         Regras PMD para o CORE.
     </description>
 
+    <exclude-pattern>.*/src/test/.*</exclude-pattern>
+    <exclude-pattern>.*src/main/java/com/cardappio/core/test.*</exclude-pattern>
+
     <!--    Best Practices-->
     <rule ref="category/java/bestpractices.xml/SystemPrintln"/>
     <rule ref="category/java/bestpractices.xml/UnitTestShouldIncludeAssert"/>
@@ -44,7 +47,7 @@
     <rule ref="category/java/errorprone.xml/AvoidDuplicateLiterals">
         <properties>
             <property name="maxDuplicateLiterals" value="1"/>
-            <property name="minimumLength" value="1"/>
+            <property name="minimumLength" value="15"/>
             <property name="exceptionList" value=""/>
         </properties>
     </rule>

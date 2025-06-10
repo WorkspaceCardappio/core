@@ -108,6 +108,8 @@
                     </rulesets>
                     <failOnViolation>true</failOnViolation>
                     <targetJdk>21</targetJdk>
+                    <verbose>false</verbose>
+                    <format>html</format>
                 </configuration>
                 <executions>
                     <execution>

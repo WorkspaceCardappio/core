@@ -11,9 +11,9 @@ import static io.github.perplexhub.rsql.RSQLJPASupport.toSpecification;
 
 public abstract class CrudService<T extends Entity<K>, V, K> {
 
-    protected CrudRepository<T, K> repository;
+    protected final CrudRepository<T, K> repository;
 
-    public CrudService(CrudRepository<T, K> repository) {
+    public CrudService(final CrudRepository<T, K> repository) {
         this.repository = repository;
     }
 
@@ -50,7 +50,7 @@ public abstract class CrudService<T extends Entity<K>, V, K> {
     public void delete(final K id) {
 
         repository.findById(id)
-                .ifPresentOrElse(entity -> repository.delete(entity),
+                .ifPresentOrElse(repository::delete,
                         () -> {
                             throw new EntityNotFoundException();
                         });
