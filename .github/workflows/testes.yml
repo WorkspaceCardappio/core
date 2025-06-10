@@ -22,4 +22,4 @@ jobs:
 
       - name: Build e Testes com Maven # Compila e da build no Projeto junto com a execução dos testes com Maven
         working-directory: backend/core # Entra na pasta do projeto do Core pra realizar os processos
-        run: mvn clean verify -B
+        run: mvn clean verify -B -q
