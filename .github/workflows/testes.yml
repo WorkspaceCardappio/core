@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build: # É criado um job chamado build que vai rodar numa máquina virtual Ubuntu
+  core: # É criado um job chamado build que vai rodar numa máquina virtual Ubuntu
     runs-on: ubuntu-latest
 
     steps:
