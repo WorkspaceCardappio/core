@@ -3,7 +3,6 @@ package com.cardappio.core.controller;
 import com.cardappio.core.entity.Entity;
 import com.cardappio.core.service.CrudService;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ public class CrudController<T extends Entity<K>, V, K> {
 
     protected final CrudService<T, V, K> service;
 
-    public CrudController(CrudService<T, V, K> service) {
+    public CrudController(final CrudService<T, V, K> service) {
         this.service = service;
     }
 
@@ -50,9 +49,9 @@ public class CrudController<T extends Entity<K>, V, K> {
     )
     protected ResponseEntity<Void> create(@RequestBody @Valid final V newDTO) {
 
-        K idSaved = service.create(newDTO);
+        final K idSaved = service.create(newDTO);
 
-        URI uri = ServletUriComponentsBuilder
+        final URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(idSaved)
