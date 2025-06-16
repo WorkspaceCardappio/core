@@ -10,7 +10,8 @@
     </parent>
     <groupId>com.cardappio</groupId>
     <artifactId>core</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.2</version>
+    <packaging>jar</packaging>
     <name>core</name>
     <description>Cardappio Core</description>
     <url/>
@@ -64,7 +65,7 @@
             <version>5.11.4</version>
             <scope>test</scope>
         </dependency>
-        <!--		https://github.com/perplexhub/rsql-jpa-specification?tab=readme-ov-file-->
+        <!--       https://github.com/perplexhub/rsql-jpa-specification?tab=readme-ov-file-->
         <dependency>
             <groupId>io.github.perplexhub</groupId>
             <artifactId>rsql-jpa-spring-boot-starter</artifactId>
@@ -86,19 +87,19 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-            <plugin>
+            <!--          <plugin>-->
+            <!--             <groupId>org.springframework.boot</groupId>-->
+            <!--             <artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--             <configuration>-->
+            <!--                <excludes>-->
+            <!--                   <exclude>-->
+            <!--                      <groupId>org.projectlombok</groupId>-->
+            <!--                      <artifactId>lombok</artifactId>-->
+            <!--                   </exclude>-->
+            <!--                </excludes>-->
+            <!--             </configuration>-->
+            <!--          </plugin>-->
+        <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-pmd-plugin</artifactId>
                 <version>3.26.0</version>
