@@ -1,6 +1,6 @@
 package com.cardappio.core.controller;
 
-import com.cardappio.core.entity.Entity;
+import com.cardappio.core.entity.EntityModel;
 import com.cardappio.core.service.CrudService;
 import jakarta.validation.Valid;
 import org.apache.logging.log4j.util.Strings;
@@ -12,7 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-public class CrudController<T extends Entity<K>, V, K> {
+public class CrudController<T extends EntityModel<K>, V, K> {
 
     protected final CrudService<T, V, K> service;
 
