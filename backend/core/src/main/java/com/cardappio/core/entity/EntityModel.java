@@ -1,6 +1,6 @@
 package com.cardappio.core.entity;
 
-public interface Entity<K> {
+public interface EntityModel<K> {
 
     K getId();
 }

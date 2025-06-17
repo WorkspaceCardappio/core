@@ -1,7 +1,7 @@
 package com.cardappio.core.service;
 
 import com.cardappio.core.adapter.Adapter;
-import com.cardappio.core.entity.Entity;
+import com.cardappio.core.entity.EntityModel;
 import com.cardappio.core.repository.CrudRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import static io.github.perplexhub.rsql.RSQLJPASupport.toSpecification;
 
-public abstract class CrudService<T extends Entity<K>, V, K> {
+public abstract class CrudService<T extends EntityModel<K>, V, K> {
 
     protected final CrudRepository<T, K> repository;
 
