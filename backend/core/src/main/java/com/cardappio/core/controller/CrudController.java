@@ -40,6 +40,7 @@ public class CrudController<T extends EntityModel<K>, V, K> {
             method = RequestMethod.GET,
             value = "/{id}"
     )
+
     protected ResponseEntity<V> findById(@PathVariable final K id) {
         return ResponseEntity.ok(service.findById(id));
     }
