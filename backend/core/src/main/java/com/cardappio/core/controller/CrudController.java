@@ -18,7 +18,7 @@ public abstract class CrudController<T extends EntityModel<K>, V, K> {
     @Autowired
     protected CrudService<T, V, K> service;
 
-    public void setService(CrudService<T, V, K> service) {
+    public void setService(final CrudService<T, V, K> service) {
         this.service = service;
     }
 

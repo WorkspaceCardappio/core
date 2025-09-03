@@ -15,7 +15,7 @@ public abstract class CrudService<T extends EntityModel<K>, V, K> {
     @Autowired
     protected CrudRepository<T, K> repository;
 
-    public void setRepository(CrudRepository<T, K> repository) {
+    public void setRepository(final CrudRepository<T, K> repository) {
         this.repository = repository;
     }
 
