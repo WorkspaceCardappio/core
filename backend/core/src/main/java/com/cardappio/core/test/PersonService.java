@@ -1,16 +1,11 @@
 package com.cardappio.core.test;
 
 import com.cardappio.core.adapter.Adapter;
-import com.cardappio.core.repository.CrudRepository;
 import com.cardappio.core.service.CrudService;
 import org.springframework.stereotype.Service;
 
 @Service
 class PersonService extends CrudService<Person, PersonDTO, Long> {
-
-    PersonService(CrudRepository<Person, Long> repository) {
-        super(repository);
-    }
 
     @Override
     protected Adapter<PersonDTO, Person> getAdapter() {
