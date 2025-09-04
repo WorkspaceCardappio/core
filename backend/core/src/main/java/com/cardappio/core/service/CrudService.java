@@ -4,6 +4,7 @@ import com.cardappio.core.adapter.Adapter;
 import com.cardappio.core.entity.EntityModel;
 import com.cardappio.core.repository.CrudRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -11,11 +12,13 @@ import static io.github.perplexhub.rsql.RSQLJPASupport.toSpecification;
 
 public abstract class CrudService<T extends EntityModel<K>, V, K> {
 
-    protected final CrudRepository<T, K> repository;
+    @Autowired
+    protected CrudRepository<T, K> repository;
 
-    public CrudService(final CrudRepository<T, K> repository) {
+    public void setRepository(final CrudRepository<T, K> repository) {
         this.repository = repository;
     }
+
 
     public Page<V> findAll(final int pageSize) {
 

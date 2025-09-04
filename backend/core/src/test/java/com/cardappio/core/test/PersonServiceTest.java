@@ -2,6 +2,7 @@ package com.cardappio.core.test;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.assertj.core.groups.Tuple;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -17,7 +18,6 @@ import org.springframework.data.jpa.domain.Specification;
 import java.util.List;
 import java.util.Optional;
 
-import static io.github.perplexhub.rsql.RSQLJPASupport.toSpecification;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
@@ -30,6 +30,12 @@ class PersonServiceTest {
 
     @Mock
     private PersonRepository repository;
+
+    @BeforeEach
+    public void setup() {
+
+        service.setRepository(repository);
+    }
 
     @Test
     void findAll() {

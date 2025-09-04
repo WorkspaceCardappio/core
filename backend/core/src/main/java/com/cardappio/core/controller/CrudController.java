@@ -4,6 +4,7 @@ import com.cardappio.core.entity.EntityModel;
 import com.cardappio.core.service.CrudService;
 import jakarta.validation.Valid;
 import org.apache.logging.log4j.util.Strings;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +13,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-public class CrudController<T extends EntityModel<K>, V, K> {
+public abstract class CrudController<T extends EntityModel<K>, V, K> {
 
-    protected final CrudService<T, V, K> service;
+    @Autowired
+    protected CrudService<T, V, K> service;
 
-    public CrudController(final CrudService<T, V, K> service) {
+    public void setService(final CrudService<T, V, K> service) {
         this.service = service;
     }
 
@@ -40,7 +42,6 @@ public class CrudController<T extends EntityModel<K>, V, K> {
             method = RequestMethod.GET,
             value = "/{id}"
     )
-
     protected ResponseEntity<V> findById(@PathVariable final K id) {
         return ResponseEntity.ok(service.findById(id));
     }
