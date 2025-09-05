@@ -121,7 +121,7 @@ class PersonServiceTest {
     @Test
     void create() {
 
-        final PersonDTO person = new PersonDTO(1L, "Jean");
+        final CreateDTO person = new CreateDTO(1L, "Jean");
         final Person personToSave = new Person(1L, "Jean");
         final ArgumentCaptor<Person> captor = ArgumentCaptor.forClass(Person.class);
         when(repository.save(personToSave)).thenReturn(personToSave);
@@ -139,7 +139,7 @@ class PersonServiceTest {
     @Test
     void update() {
 
-        final PersonDTO person = new PersonDTO(1L, "Jean");
+        final CreateDTO person = new CreateDTO(1L, "Jean");
         final Person personToSave = new Person(1L, "Jean");
         final ArgumentCaptor<Person> captor = ArgumentCaptor.forClass(Person.class);
         when(repository.findById(1L)).thenReturn(Optional.of(personToSave));
@@ -159,7 +159,7 @@ class PersonServiceTest {
     @Test
     void updateThrowException() {
 
-        final PersonDTO person = new PersonDTO(1L, "Jean");
+        final CreateDTO person = new CreateDTO(1L, "Jean");
         final Person personToSave = new Person(1L, "Jean");
         when(repository.findById(1L)).thenReturn(Optional.empty());
 

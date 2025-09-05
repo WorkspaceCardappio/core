@@ -79,7 +79,7 @@ public class PersonControllerTest {
     @SneakyThrows
     void create() {
 
-        PersonDTO dto = new PersonDTO(1L, "Jean");
+        CreateDTO dto = new CreateDTO(1L, "Jean");
 
         mockMvc.perform(post(RESOURCE)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -94,7 +94,7 @@ public class PersonControllerTest {
     @SneakyThrows
     void update() {
 
-        PersonDTO dto = new PersonDTO(1L, "Jean");
+        CreateDTO dto = new CreateDTO(1L, "Jean");
 
         mockMvc.perform(put(RESOURCE + "/1")
                         .contentType(MediaType.APPLICATION_JSON)

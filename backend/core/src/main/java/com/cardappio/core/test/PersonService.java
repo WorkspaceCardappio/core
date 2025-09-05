@@ -5,23 +5,23 @@ import com.cardappio.core.service.CrudService;
 import org.springframework.stereotype.Service;
 
 @Service
-class PersonService extends CrudService<Person, PersonDTO, Long> {
+class PersonService extends CrudService<Person, Long, PersonDTO, CreateDTO> {
 
     @Override
-    protected Adapter<PersonDTO, Person> getAdapter() {
+    protected Adapter<Person, PersonDTO, CreateDTO> getAdapter() {
         return new PersonAdapter();
     }
 
-    private static final class PersonAdapter implements Adapter<PersonDTO, Person> {
-
-        @Override
-        public Person toEntity(PersonDTO dto) {
-            return new Person(dto.id(), dto.name());
-        }
+    private static final class PersonAdapter implements Adapter<Person, PersonDTO, CreateDTO> {
 
         @Override
         public PersonDTO toDTO(Person entity) {
             return new PersonDTO(entity.getId(), entity.getName());
+        }
+
+        @Override
+        public Person toEntity(CreateDTO createDTO) {
+            return new Person(createDTO.id(), createDTO.name());
         }
     }
 }

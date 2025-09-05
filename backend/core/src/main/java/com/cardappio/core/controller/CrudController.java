@@ -13,19 +13,19 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-public abstract class CrudController<T extends EntityModel<K>, V, K> {
+public abstract class CrudController<Entity extends EntityModel<ID>, ID, ListDTO, CreateDTO> {
 
     @Autowired
-    protected CrudService<T, V, K> service;
+    protected CrudService<Entity, ID, ListDTO, CreateDTO> service;
 
-    public void setService(final CrudService<T, V, K> service) {
+    public void setService(final CrudService<Entity, ID, ListDTO, CreateDTO> service) {
         this.service = service;
     }
 
     @RequestMapping(
             method = RequestMethod.GET
     )
-    protected ResponseEntity<Page<V>> findAll(
+    protected ResponseEntity<Page<ListDTO>> findAll(
             @RequestParam(value = "page_size") final int pageSize,
             @RequestParam(value = "search", defaultValue = Strings.EMPTY) final String search
     ) {
@@ -42,16 +42,16 @@ public abstract class CrudController<T extends EntityModel<K>, V, K> {
             method = RequestMethod.GET,
             value = "/{id}"
     )
-    protected ResponseEntity<V> findById(@PathVariable final K id) {
+    protected ResponseEntity<ListDTO> findById(@PathVariable final ID id) {
         return ResponseEntity.ok(service.findById(id));
     }
 
     @RequestMapping(
             method = RequestMethod.POST
     )
-    protected ResponseEntity<Void> create(@RequestBody @Valid final V newDTO) {
+    protected ResponseEntity<Void> create(@RequestBody @Valid final CreateDTO newDTO) {
 
-        final K idSaved = service.create(newDTO);
+        final ID idSaved = service.create(newDTO);
 
         final URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -66,7 +66,7 @@ public abstract class CrudController<T extends EntityModel<K>, V, K> {
             method = RequestMethod.PUT,
             value = "/{id}"
     )
-    protected ResponseEntity<Void> update(@PathVariable final K id, @RequestBody @Valid final V updatedDTO) {
+    protected ResponseEntity<Void> update(@PathVariable final ID id, @RequestBody @Valid final CreateDTO updatedDTO) {
 
         service.update(id, updatedDTO);
 
@@ -77,7 +77,7 @@ public abstract class CrudController<T extends EntityModel<K>, V, K> {
             method = RequestMethod.DELETE,
             value = "/{id}"
     )
-    protected ResponseEntity<Void> delete(@PathVariable final K id) {
+    protected ResponseEntity<Void> delete(@PathVariable final ID id) {
 
         service.delete(id);
 

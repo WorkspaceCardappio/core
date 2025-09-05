@@ -1,8 +1,8 @@
 package com.cardappio.core.adapter;
 
-public interface Adapter<V, T> {
+public interface Adapter<Entity, ListDTO, CreateDTO> {
 
-    V toDTO(T entity);
+    ListDTO toDTO(Entity entity);
 
-    T toEntity(V dto);
+    Entity toEntity(CreateDTO dto);
 }

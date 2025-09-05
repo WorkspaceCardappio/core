@@ -10,47 +10,47 @@ import org.springframework.data.domain.Pageable;
 
 import static io.github.perplexhub.rsql.RSQLJPASupport.toSpecification;
 
-public abstract class CrudService<T extends EntityModel<K>, V, K> {
+public abstract class CrudService<Entity extends EntityModel<ID>, ID, ListDTO, CreateDTO> {
 
     @Autowired
-    protected CrudRepository<T, K> repository;
+    protected CrudRepository<Entity, ID> repository;
 
-    public void setRepository(final CrudRepository<T, K> repository) {
+    public void setRepository(final CrudRepository<Entity, ID> repository) {
         this.repository = repository;
     }
 
 
-    public Page<V> findAll(final int pageSize) {
+    public Page<ListDTO> findAll(final int pageSize) {
 
         return repository.findAll(Pageable.ofSize(pageSize))
                 .map(entity -> getAdapter().toDTO(entity));
     }
 
-    public Page<V> findAllRSQL(final String search, final int pageSize) {
+    public Page<ListDTO> findAllRSQL(final String search, final int pageSize) {
 
         return repository.findAll(toSpecification(search), Pageable.ofSize(pageSize))
                 .map(entity -> getAdapter().toDTO(entity));
     }
 
-    public V findById(final K id) {
+    public ListDTO findById(final ID id) {
 
         return repository.findById(id)
                 .map(entity -> getAdapter().toDTO(entity))
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    public K create(final V dto) {
+    public ID create(final CreateDTO dto) {
         return repository.save(getAdapter().toEntity(dto)).getId();
     }
 
-    public void update(final K id, final V newEntity) {
+    public void update(final ID id, final CreateDTO newEntity) {
 
         repository.findById(id)
                 .map(client -> repository.save(getAdapter().toEntity(newEntity)))
                 .orElseThrow(EntityNotFoundException::new);
     }
 
-    public void delete(final K id) {
+    public void delete(final ID id) {
 
         repository.findById(id)
                 .ifPresentOrElse(repository::delete,
@@ -59,5 +59,5 @@ public abstract class CrudService<T extends EntityModel<K>, V, K> {
                         });
     }
 
-    protected abstract Adapter<V, T> getAdapter();
+    protected abstract Adapter<Entity, ListDTO, CreateDTO> getAdapter();
 }
