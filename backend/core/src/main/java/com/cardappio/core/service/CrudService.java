@@ -20,16 +20,20 @@ public abstract class CrudService<Entity extends EntityModel<ID>, ID, ListDTO, C
     }
 
 
-    public Page<ListDTO> findAll(final int pageSize) {
+    public Page<Entity> findAll(final int pageSize) {
 
-        return repository.findAll(Pageable.ofSize(pageSize))
-                .map(entity -> getAdapter().toDTO(entity));
+        return repository.findAll(Pageable.ofSize(pageSize));
     }
 
-    public Page<ListDTO> findAllRSQL(final String search, final int pageSize) {
+    public Page<Entity> findAllRSQL(final String search, final int pageSize) {
 
-        return repository.findAll(toSpecification(search), Pageable.ofSize(pageSize))
-                .map(entity -> getAdapter().toDTO(entity));
+        return repository.findAll(toSpecification(search), Pageable.ofSize(pageSize));
+    }
+
+    public Page<ListDTO> findAllRSQLDTO(final String search, final int pageSize) {
+
+        return findAllRSQL(search, pageSize)
+                .map(page -> getAdapter().toDTO(page));
     }
 
     public ListDTO findById(final ID id) {
@@ -37,6 +41,13 @@ public abstract class CrudService<Entity extends EntityModel<ID>, ID, ListDTO, C
         return repository.findById(id)
                 .map(entity -> getAdapter().toDTO(entity))
                 .orElseThrow(EntityNotFoundException::new);
+    }
+
+
+    public Page<ListDTO> findAllDTO(final int pageSize) {
+
+        return repository.findAll(Pageable.ofSize(pageSize))
+                .map(entity -> getAdapter().toDTO(entity));
     }
 
     public ID create(final CreateDTO dto) {

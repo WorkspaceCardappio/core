@@ -25,7 +25,7 @@ public abstract class CrudController<Entity extends EntityModel<ID>, ID, ListDTO
     @RequestMapping(
             method = RequestMethod.GET
     )
-    protected ResponseEntity<Page<ListDTO>> findAll(
+    protected ResponseEntity<Page<Entity>> findAll(
             @RequestParam(value = "page_size") final int pageSize,
             @RequestParam(value = "search", defaultValue = Strings.EMPTY) final String search
     ) {
@@ -44,6 +44,21 @@ public abstract class CrudController<Entity extends EntityModel<ID>, ID, ListDTO
     )
     protected ResponseEntity<ListDTO> findById(@PathVariable final ID id) {
         return ResponseEntity.ok(service.findById(id));
+    }
+
+    @RequestMapping(
+            method = RequestMethod.GET,
+            value = "/dto"
+    )
+    protected ResponseEntity<Page<ListDTO>> findAllDTO(@RequestParam(value = "page_size") final int pageSize,
+            @RequestParam(value = "search", defaultValue = Strings.EMPTY) final String search) {
+
+        if (search.isBlank()) {
+
+            return ResponseEntity.ok(service.findAllDTO(pageSize));
+        }
+
+        return ResponseEntity.ok(service.findAllRSQLDTO(search, pageSize));
     }
 
     @RequestMapping(

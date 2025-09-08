@@ -48,18 +48,36 @@ class PersonServiceTest {
         when(repository.findAll(Pageable.ofSize(20)))
                 .thenReturn(new PageImpl<>(people, PageRequest.of(0, 20), people.size()));
 
-        Page<PersonDTO> result = service.findAll(20);
+        Page<Person> result = service.findAll(20);
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(2);
         assertThat(result.getTotalElements()).isEqualTo(2);
         assertThat(result.getTotalPages()).isEqualTo(1);
         assertThat(result)
-                .extracting(PersonDTO::id, PersonDTO::name)
+                .extracting(Person::getId, Person::getName)
                 .containsExactlyInAnyOrder(
                         Tuple.tuple(1L, "Ricardo"),
                         Tuple.tuple(2L, "Jean"));
 
+        verify(repository, times(1)).findAll(Pageable.ofSize(20));
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void findAllDTO() {
+
+        List<Person> people = List.of(
+                new Person(1L, "Ricardo"),
+                new Person(2L, "Jean")
+        );
+
+        when(repository.findAll(Pageable.ofSize(20)))
+                .thenReturn(new PageImpl<>(people, PageRequest.of(0, 20), people.size()));
+
+        Page<PersonDTO> result = service.findAllDTO(20);
+
+        assertThat(result.getContent().getFirst().id()).isEqualTo(1L);
         verify(repository, times(1)).findAll(Pageable.ofSize(20));
         verifyNoMoreInteractions(repository);
     }
@@ -75,18 +93,36 @@ class PersonServiceTest {
         when(repository.findAll(any(Specification.class), eq(Pageable.ofSize(20))))
                 .thenReturn(new PageImpl<>(people, PageRequest.of(0, 20), people.size()));
 
-        Page<PersonDTO> result = service.findAllRSQL("id=bt=(1,2)", 20);
+        Page<Person> result = service.findAllRSQL("id=bt=(1,2)", 20);
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(2);
         assertThat(result.getTotalElements()).isEqualTo(2);
         assertThat(result.getTotalPages()).isEqualTo(1);
         assertThat(result)
-                .extracting(PersonDTO::id, PersonDTO::name)
+                .extracting(Person::getId, Person::getName)
                 .containsExactlyInAnyOrder(
                         Tuple.tuple(1L, "Ricardo"),
                         Tuple.tuple(2L, "Jean"));
 
+        verify(repository, times(1)).findAll(any(Specification.class), eq(Pageable.ofSize(20)));
+        verifyNoMoreInteractions(repository);
+    }
+
+    @Test
+    void findAllRSQLDTO() {
+
+        List<Person> people = List.of(
+                new Person(1L, "Ricardo"),
+                new Person(2L, "Jean")
+        );
+
+        when(repository.findAll(any(Specification.class), eq(Pageable.ofSize(20))))
+                .thenReturn(new PageImpl<>(people, PageRequest.of(0, 20), people.size()));
+
+        final Page<PersonDTO> result = service.findAllRSQLDTO("id=bt=(1,2)", 20);
+
+        assertThat(result.getContent().getFirst().id()).isEqualTo(1L);
         verify(repository, times(1)).findAll(any(Specification.class), eq(Pageable.ofSize(20)));
         verifyNoMoreInteractions(repository);
     }
