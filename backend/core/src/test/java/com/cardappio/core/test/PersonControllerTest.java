@@ -55,12 +55,34 @@ public class PersonControllerTest {
 
     @Test
     @SneakyThrows
+    void findAllDTO() {
+
+        mockMvc.perform(get(RESOURCE + "/dto?page_size=100"))
+                .andExpect(status().isOk());
+
+        verify(service, times(1)).findAllDTO(100);
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    @SneakyThrows
     void findAllRSQL() {
 
         mockMvc.perform(get(RESOURCE + "?page_size=100&search=nome='ricardo';id=27"))
                 .andExpect(status().isOk());
 
         verify(service, times(1)).findAllRSQL("nome='ricardo';id=27", 100);
+        verifyNoMoreInteractions(service);
+    }
+
+    @Test
+    @SneakyThrows
+    void findAllRSQLDTO() {
+
+        mockMvc.perform(get(RESOURCE + "/dto?page_size=100&search=nome='ricardo';id=27"))
+                .andExpect(status().isOk());
+
+        verify(service, times(1)).findAllRSQLDTO("nome='ricardo';id=27", 100);
         verifyNoMoreInteractions(service);
     }
 
@@ -79,7 +101,7 @@ public class PersonControllerTest {
     @SneakyThrows
     void create() {
 
-        PersonDTO dto = new PersonDTO(1L, "Jean");
+        CreateDTO dto = new CreateDTO(1L, "Jean");
 
         mockMvc.perform(post(RESOURCE)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -94,7 +116,7 @@ public class PersonControllerTest {
     @SneakyThrows
     void update() {
 
-        PersonDTO dto = new PersonDTO(1L, "Jean");
+        CreateDTO dto = new CreateDTO(1L, "Jean");
 
         mockMvc.perform(put(RESOURCE + "/1")
                         .contentType(MediaType.APPLICATION_JSON)

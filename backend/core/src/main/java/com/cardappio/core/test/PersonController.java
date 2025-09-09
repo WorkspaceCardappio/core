@@ -6,5 +6,5 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/people")
-class PersonController extends CrudController<Person, PersonDTO, Long> {
+class PersonController extends CrudController<Person, Long, PersonDTO, CreateDTO> {
 }
