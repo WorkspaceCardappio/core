@@ -28,7 +28,7 @@ public abstract class CrudController<Entity extends EntityModel<ID>, ID, ListDTO
     )
     protected ResponseEntity<Page<Entity>> findAll(
             @RequestParam(value = "search", defaultValue = Strings.EMPTY) final String search,
-            Pageable pageable
+            final Pageable pageable
     ) {
 
         if (search.isBlank()) {
@@ -53,7 +53,7 @@ public abstract class CrudController<Entity extends EntityModel<ID>, ID, ListDTO
     )
     protected ResponseEntity<Page<ListDTO>> findAllDTO(
             @RequestParam(value = "search", defaultValue = Strings.EMPTY) final String search,
-            Pageable pageable) {
+            final Pageable pageable) {
 
         if (search.isBlank()) {
 
