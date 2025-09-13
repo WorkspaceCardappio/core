@@ -20,19 +20,19 @@ public abstract class CrudService<Entity extends EntityModel<ID>, ID, ListDTO, C
     }
 
 
-    public Page<Entity> findAll(final int pageSize) {
+    public Page<Entity> findAll(final Pageable pageable) {
 
-        return repository.findAll(Pageable.ofSize(pageSize));
+        return repository.findAll(pageable);
     }
 
-    public Page<Entity> findAllRSQL(final String search, final int pageSize) {
+    public Page<Entity> findAllRSQL(final String search, final Pageable pageable) {
 
-        return repository.findAll(toSpecification(search), Pageable.ofSize(pageSize));
+        return repository.findAll(toSpecification(search), pageable);
     }
 
-    public Page<ListDTO> findAllRSQLDTO(final String search, final int pageSize) {
+    public Page<ListDTO> findAllRSQLDTO(final String search, final Pageable pageable) {
 
-        return findAllRSQL(search, pageSize)
+        return findAllRSQL(search, pageable)
                 .map(page -> getAdapter().toDTO(page));
     }
 
@@ -44,9 +44,9 @@ public abstract class CrudService<Entity extends EntityModel<ID>, ID, ListDTO, C
     }
 
 
-    public Page<ListDTO> findAllDTO(final int pageSize) {
+    public Page<ListDTO> findAllDTO(final Pageable pageable) {
 
-        return repository.findAll(Pageable.ofSize(pageSize))
+        return repository.findAll(pageable)
                 .map(entity -> getAdapter().toDTO(entity));
     }
 

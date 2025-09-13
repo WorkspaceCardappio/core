@@ -45,10 +45,11 @@ class PersonServiceTest {
                 new Person(2L, "Jean")
         );
 
-        when(repository.findAll(Pageable.ofSize(20)))
+        final Pageable pageable = Pageable.ofSize(20);
+        when(repository.findAll(pageable))
                 .thenReturn(new PageImpl<>(people, PageRequest.of(0, 20), people.size()));
 
-        Page<Person> result = service.findAll(20);
+        Page<Person> result = service.findAll(pageable);
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(2);
@@ -60,7 +61,7 @@ class PersonServiceTest {
                         Tuple.tuple(1L, "Ricardo"),
                         Tuple.tuple(2L, "Jean"));
 
-        verify(repository, times(1)).findAll(Pageable.ofSize(20));
+        verify(repository, times(1)).findAll(pageable);
         verifyNoMoreInteractions(repository);
     }
 
@@ -72,13 +73,14 @@ class PersonServiceTest {
                 new Person(2L, "Jean")
         );
 
-        when(repository.findAll(Pageable.ofSize(20)))
+        final Pageable pageable = Pageable.ofSize(20);
+        when(repository.findAll(pageable))
                 .thenReturn(new PageImpl<>(people, PageRequest.of(0, 20), people.size()));
 
-        Page<PersonDTO> result = service.findAllDTO(20);
+        Page<PersonDTO> result = service.findAllDTO(pageable);
 
         assertThat(result.getContent().getFirst().id()).isEqualTo(1L);
-        verify(repository, times(1)).findAll(Pageable.ofSize(20));
+        verify(repository, times(1)).findAll(pageable);
         verifyNoMoreInteractions(repository);
     }
 
@@ -90,10 +92,11 @@ class PersonServiceTest {
                 new Person(2L, "Jean")
         );
 
-        when(repository.findAll(any(Specification.class), eq(Pageable.ofSize(20))))
+        final Pageable pageable = Pageable.ofSize(20);
+        when(repository.findAll(any(Specification.class), eq(pageable)))
                 .thenReturn(new PageImpl<>(people, PageRequest.of(0, 20), people.size()));
 
-        Page<Person> result = service.findAllRSQL("id=bt=(1,2)", 20);
+        Page<Person> result = service.findAllRSQL("id=bt=(1,2)", pageable);
 
         assertThat(result).isNotNull();
         assertThat(result.getContent()).hasSize(2);
@@ -105,7 +108,7 @@ class PersonServiceTest {
                         Tuple.tuple(1L, "Ricardo"),
                         Tuple.tuple(2L, "Jean"));
 
-        verify(repository, times(1)).findAll(any(Specification.class), eq(Pageable.ofSize(20)));
+        verify(repository, times(1)).findAll(any(Specification.class), eq(pageable));
         verifyNoMoreInteractions(repository);
     }
 
@@ -117,13 +120,14 @@ class PersonServiceTest {
                 new Person(2L, "Jean")
         );
 
-        when(repository.findAll(any(Specification.class), eq(Pageable.ofSize(20))))
+        final Pageable pageable = Pageable.ofSize(20);
+        when(repository.findAll(any(Specification.class), eq(pageable)))
                 .thenReturn(new PageImpl<>(people, PageRequest.of(0, 20), people.size()));
 
-        final Page<PersonDTO> result = service.findAllRSQLDTO("id=bt=(1,2)", 20);
+        final Page<PersonDTO> result = service.findAllRSQLDTO("id=bt=(1,2)", pageable);
 
         assertThat(result.getContent().getFirst().id()).isEqualTo(1L);
-        verify(repository, times(1)).findAll(any(Specification.class), eq(Pageable.ofSize(20)));
+        verify(repository, times(1)).findAll(any(Specification.class), eq(pageable));
         verifyNoMoreInteractions(repository);
     }
 
