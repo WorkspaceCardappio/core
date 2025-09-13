@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,16 +27,16 @@ public abstract class CrudController<Entity extends EntityModel<ID>, ID, ListDTO
             method = RequestMethod.GET
     )
     protected ResponseEntity<Page<Entity>> findAll(
-            @RequestParam(value = "page_size") final int pageSize,
-            @RequestParam(value = "search", defaultValue = Strings.EMPTY) final String search
+            @RequestParam(value = "search", defaultValue = Strings.EMPTY) final String search,
+            Pageable pageable
     ) {
 
         if (search.isBlank()) {
 
-            return ResponseEntity.ok(service.findAll(pageSize));
+            return ResponseEntity.ok(service.findAll(pageable));
         }
 
-        return ResponseEntity.ok(service.findAllRSQL(search, pageSize));
+        return ResponseEntity.ok(service.findAllRSQL(search, pageable));
     }
 
     @RequestMapping(
@@ -50,15 +51,16 @@ public abstract class CrudController<Entity extends EntityModel<ID>, ID, ListDTO
             method = RequestMethod.GET,
             value = "/dto"
     )
-    protected ResponseEntity<Page<ListDTO>> findAllDTO(@RequestParam(value = "page_size") final int pageSize,
-            @RequestParam(value = "search", defaultValue = Strings.EMPTY) final String search) {
+    protected ResponseEntity<Page<ListDTO>> findAllDTO(
+            @RequestParam(value = "search", defaultValue = Strings.EMPTY) final String search,
+            Pageable pageable) {
 
         if (search.isBlank()) {
 
-            return ResponseEntity.ok(service.findAllDTO(pageSize));
+            return ResponseEntity.ok(service.findAllDTO(pageable));
         }
 
-        return ResponseEntity.ok(service.findAllRSQLDTO(search, pageSize));
+        return ResponseEntity.ok(service.findAllRSQLDTO(search, pageable));
     }
 
     @RequestMapping(
