@@ -43,7 +43,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -65,11 +64,20 @@
             <version>5.11.4</version>
             <scope>test</scope>
         </dependency>
-        <!--       https://github.com/perplexhub/rsql-jpa-specification?tab=readme-ov-file-->
         <dependency>
             <groupId>io.github.perplexhub</groupId>
             <artifactId>rsql-jpa-spring-boot-starter</artifactId>
             <version>6.0.26</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>8.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.el</artifactId>
+            <version>4.0.2</version>
         </dependency>
     </dependencies>
 
