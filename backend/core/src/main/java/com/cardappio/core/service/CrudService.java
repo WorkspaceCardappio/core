@@ -51,13 +51,22 @@ public abstract class CrudService<Entity extends EntityModel<ID>, ID, ListDTO, C
     }
 
     public ID create(final CreateDTO dto) {
-        return repository.save(getAdapter().toEntity(dto)).getId();
+
+        Entity entity = getAdapter().toEntity(dto);
+
+        this.beforeSave(entity);
+
+        return repository.save(entity).getId();
     }
 
     public void update(final ID id, final CreateDTO newEntity) {
 
+        Entity entity = getAdapter().toEntity(newEntity);
+
+        this.beforeEdit(entity);
+
         repository.findById(id)
-                .map(client -> repository.save(getAdapter().toEntity(newEntity)))
+                .map(client -> repository.save(entity))
                 .orElseThrow(EntityNotFoundException::new);
     }
 
@@ -71,4 +80,8 @@ public abstract class CrudService<Entity extends EntityModel<ID>, ID, ListDTO, C
     }
 
     protected abstract Adapter<Entity, ListDTO, CreateDTO> getAdapter();
+
+    protected void beforeSave(Entity entity) {}
+
+    protected void beforeEdit(Entity entity) {}
 }
