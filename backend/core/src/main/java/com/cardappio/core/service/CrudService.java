@@ -73,7 +73,12 @@ public abstract class CrudService<Entity extends EntityModel<ID>, ID, ListDTO, C
     public void delete(final ID id) {
 
         repository.findById(id)
-                .ifPresentOrElse(repository::delete,
+                .ifPresentOrElse(entity -> {
+
+                            this.beforeDelete(entity);
+
+                            repository.delete(entity);
+                        },
                         () -> {
                             throw new EntityNotFoundException();
                         });
@@ -84,4 +89,6 @@ public abstract class CrudService<Entity extends EntityModel<ID>, ID, ListDTO, C
     protected void beforeSave(Entity entity) {}
 
     protected void beforeEdit(Entity entity) {}
+
+    protected void beforeDelete(Entity entity) {}
 }
