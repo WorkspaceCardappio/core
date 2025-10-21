@@ -66,7 +66,7 @@ public abstract class CrudController<Entity extends EntityModel<ID>, ID, ListDTO
     @RequestMapping(
             method = RequestMethod.POST
     )
-    protected ResponseEntity<Void> create(@RequestBody @Valid final CreateDTO newDTO) {
+    protected ResponseEntity<ID> create(@RequestBody @Valid final CreateDTO newDTO) {
 
         final ID idSaved = service.create(newDTO);
 
@@ -76,18 +76,18 @@ public abstract class CrudController<Entity extends EntityModel<ID>, ID, ListDTO
                 .buildAndExpand(idSaved)
                 .toUri();
 
-        return ResponseEntity.created(uri).build();
+        return ResponseEntity.created(uri).body(idSaved);
     }
 
     @RequestMapping(
             method = RequestMethod.PUT,
             value = "/{id}"
     )
-    protected ResponseEntity<Void> update(@PathVariable final ID id, @RequestBody @Valid final CreateDTO updatedDTO) {
+    protected ResponseEntity<ID> update(@PathVariable final ID id, @RequestBody @Valid final CreateDTO updatedDTO) {
 
         service.update(id, updatedDTO);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body(id);
     }
 
     @RequestMapping(
